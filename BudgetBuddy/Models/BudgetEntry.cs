@@ -1,4 +1,6 @@
-﻿namespace BudgetBuddy.API.Models
+﻿using System.Text.Json.Serialization;
+
+namespace BudgetBuddy.API.Models
 {
     public class BudgetEntry
     {
@@ -33,6 +35,8 @@
         public decimal Wants { get; set; }
         public decimal Savings_Investment_Total { get; set; }
 
+        [JsonIgnore]
         public User User { get; set; } = default!;
+
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace BudgetBuddy.API.Models
+﻿using System.Text.Json.Serialization;
+
+namespace BudgetBuddy.API.Models
 {
     public class FinancialGoal
     {
@@ -10,6 +12,8 @@
         public decimal CurrentProgress { get; set; }
         public DateTime Deadline { get; set; }
 
+        [JsonIgnore]
         public User User { get; set; } = default!;
+
     }
 }
