@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BudgetBuddy.API.Controllers
 {
+    /// <summary>
+    /// Manages budget entries including income, expenses, and financial calculations
+    /// </summary>
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
@@ -22,7 +25,10 @@ namespace BudgetBuddy.API.Controllers
             _current = current;
         }
 
-        // GET: api/BudgetEntries
+        /// <summary>
+        /// Retrieves all budget entries for the authenticated user
+        /// </summary>
+        /// <returns>List of budget entries</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BudgetEntry>>> GetBudgetEntries()
         {
@@ -30,7 +36,11 @@ namespace BudgetBuddy.API.Controllers
             return Ok(await _context.BudgetEntries.Where(b => b.UserId == userId).ToListAsync());
         }
 
-        // GET: api/BudgetEntries/5
+        /// <summary>
+        /// Retrieves a specific budget entry by ID for the authenticated user
+        /// </summary>
+        /// <param name="id">Budget entry ID</param>
+        /// <returns>Budget entry if found and belongs to user</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<BudgetEntry>> GetBudgetEntry(int id)
         {
@@ -39,7 +49,11 @@ namespace BudgetBuddy.API.Controllers
             return entry is null ? NotFound() : Ok(entry);
         }
 
-        // POST: api/BudgetEntries
+        /// <summary>
+        /// Creates a new budget entry with automatic expense calculations
+        /// </summary>
+        /// <param name="dto">Budget entry data including all income and expense categories</param>
+        /// <returns>Created budget entry with computed fields</returns>
         [HttpPost]
         public async Task<ActionResult<BudgetEntry>> PostBudgetEntry(BudgetEntryDto dto)
         {
@@ -80,7 +94,12 @@ namespace BudgetBuddy.API.Controllers
             return CreatedAtAction(nameof(GetBudgetEntry), new { id = entry.Id }, entry);
         }
 
-        // PUT: api/BudgetEntries/5
+        /// <summary>
+        /// Updates an existing budget entry with new values and recalculates totals
+        /// </summary>
+        /// <param name="id">Budget entry ID to update</param>
+        /// <param name="dto">Updated budget entry data</param>
+        /// <returns>NoContent on success</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBudgetEntry(int id, BudgetEntryDto dto)
         {
@@ -115,7 +134,11 @@ namespace BudgetBuddy.API.Controllers
             return NoContent();
         }
 
-        // DELETE: api/BudgetEntries/5
+        /// <summary>
+        /// Deletes a budget entry for the authenticated user
+        /// </summary>
+        /// <param name="id">Budget entry ID to delete</param>
+        /// <returns>NoContent on success</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBudgetEntry(int id)
         {
@@ -128,6 +151,11 @@ namespace BudgetBuddy.API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Calculates all derived financial metrics for a budget entry
+        /// Computes total expenses, needs vs wants breakdown, and monthly savings
+        /// </summary>
+        /// <param name="e">Budget entry to compute values for</param>
         private static void Compute(BudgetEntry e)
         {
             e.Total_Expenses = e.Rent + e.Loan_Repayment + e.Insurance + e.Subscriptions +

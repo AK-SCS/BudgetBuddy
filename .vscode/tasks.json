@@ -1,0 +1,49 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+   {
+  "label": "Run ML Service",
+  "type": "process",
+  "command": "${workspaceFolder}/BudgetBuddy-ml-service/.venv/Scripts/python.exe",
+  "args": [
+    "-m", "uvicorn",
+    "main:app",
+    "--host", "0.0.0.0",
+    "--port", "8000",
+    "--reload"
+  ],
+  "options": { "cwd": "${workspaceFolder}/BudgetBuddy-ml-service" },
+  "problemMatcher": [],
+  "isBackground": true,
+  "presentation": { "reveal": "always", "panel": "dedicated", "group": "bb" }
+},
+
+    {
+      "label": "Run Backend (.NET API)",
+      "type": "shell",
+      "command": "dotnet run",
+      "options": { "cwd": "${workspaceFolder}/BudgetBuddy" },
+      "problemMatcher": "$msCompile",
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated", "group": "bb" }
+    },
+    {
+      "label": "Run Frontend (Vite)",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": { "cwd": "${workspaceFolder}/budgetbuddyweb" },
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated", "group": "bb" }
+    },
+    {
+      "label": "Run All",
+      "dependsOn": [
+        "Run ML Service",
+        "Run Backend (.NET API)",
+        "Run Frontend (Vite)"
+      ],
+      "dependsOrder": "parallel"
+    }
+  ]
+}

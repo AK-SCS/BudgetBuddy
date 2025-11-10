@@ -2,6 +2,10 @@
 
 namespace BudgetBuddy.API.Models
 {
+    /// <summary>
+    /// Represents a user's financial goal with target amount and progress tracking
+    /// Used for savings goals, debt payoff, or other financial objectives
+    /// </summary>
     public class FinancialGoal
     {
         public int Id { get; set; }
@@ -14,6 +18,5 @@ namespace BudgetBuddy.API.Models
 
         [JsonIgnore]
         public User User { get; set; } = default!;
-
     }
 }

@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BudgetBuddy.API.Controllers
 {
+    /// <summary>
+    /// Manages AI-generated financial recommendations and insights
+    /// </summary>
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
@@ -22,6 +25,10 @@ namespace BudgetBuddy.API.Controllers
             _current = current;
         }
 
+        /// <summary>
+        /// Retrieves all saved AI recommendations for the authenticated user
+        /// </summary>
+        /// <returns>List of AI recommendations</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AIRecommendation>>> GetRecommendations()
         {
@@ -30,6 +37,11 @@ namespace BudgetBuddy.API.Controllers
             return Ok(data);
         }
 
+        /// <summary>
+        /// Saves a new AI recommendation for the authenticated user
+        /// </summary>
+        /// <param name="dto">Recommendation text to save</param>
+        /// <returns>Created recommendation with timestamp</returns>
         [HttpPost]
         public async Task<ActionResult<AIRecommendation>> PostRecommendation(AIRecommendationDto dto)
         {
@@ -45,6 +57,12 @@ namespace BudgetBuddy.API.Controllers
             return CreatedAtAction(nameof(GetRecommendations), new { id = rec.Id }, rec);
         }
 
+        /// <summary>
+        /// Generates a rule-based financial recommendation based on latest budget and goals
+        /// Analyzes spending patterns, savings rate, and goal progress
+        /// </summary>
+        /// <param name="ct">Cancellation token</param>
+        /// <returns>Generated recommendation with actionable insights</returns>
         [HttpPost("generate")]
         public async Task<ActionResult<AIRecommendation>> Generate(CancellationToken ct)
         {

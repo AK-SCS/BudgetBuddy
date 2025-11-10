@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BudgetBuddy.API.Controllers
 {
+    /// <summary>
+    /// Manages user financial goals including tracking progress and deadlines
+    /// </summary>
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
@@ -22,6 +25,10 @@ namespace BudgetBuddy.API.Controllers
             _current = current;
         }
 
+        /// <summary>
+        /// Retrieves all financial goals for the authenticated user
+        /// </summary>
+        /// <returns>List of financial goals</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FinancialGoal>>> GetGoals()
         {

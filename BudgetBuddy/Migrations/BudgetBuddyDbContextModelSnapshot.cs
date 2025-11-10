@@ -179,6 +179,12 @@ namespace BudgetBuddy.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ResetToken")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("ResetTokenExpiry")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Email")

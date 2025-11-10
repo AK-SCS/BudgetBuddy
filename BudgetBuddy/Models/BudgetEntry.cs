@@ -2,12 +2,23 @@
 
 namespace BudgetBuddy.API.Models
 {
+    /// <summary>
+    /// Represents a monthly budget entry with income, expenses, and financial metrics
+    /// Automatically calculates totals, savings, and needs vs wants breakdown
+    /// </summary>
     public class BudgetEntry
     {
         public int Id { get; set; }
         public int UserId { get; set; }
 
+        /// <summary>
+        /// Month number (1-12) for the budget period
+        /// </summary>
         public int Month { get; set; }
+        
+        /// <summary>
+        /// User-entered income and expense categories
+        /// </summary>
         public decimal Monthly_Income { get; set; }
         public decimal Rent { get; set; }
         public decimal Loan_Repayment { get; set; }
@@ -28,7 +39,9 @@ namespace BudgetBuddy.API.Models
         public decimal Debt { get; set; }
         public decimal Total_Liabilities { get; set; }
 
-        // computed
+        /// <summary>
+        /// Computed financial metrics (calculated by Compute method)
+        /// </summary>
         public decimal Total_Expenses { get; set; }
         public decimal Monthly_Savings { get; set; }
         public decimal Needs { get; set; }
@@ -37,6 +50,5 @@ namespace BudgetBuddy.API.Models
 
         [JsonIgnore]
         public User User { get; set; } = default!;
-
     }
 }
