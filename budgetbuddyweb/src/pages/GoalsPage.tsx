@@ -43,10 +43,11 @@ export default function Goals() {
     loadGoals();
   }, []);
 
-  async function loadGoals() {
+   async function loadGoals() {
     try {
       const response = await api.get('/api/financialgoals');
       setGoals(response.data);
+      console.log('Goals loaded:', response.data.length); 
     } catch (error) {
       console.error('Failed to load goals:', error);
     } finally {
@@ -216,7 +217,7 @@ export default function Goals() {
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>
-            Add New Goal
+            {goals.length === 0 ? 'Create Your First Goal' : 'Add New Goal'}
           </button>
         </div>
 
@@ -270,15 +271,25 @@ export default function Goals() {
           </div>
         </div>
 
-        {/* Goals Grid */}
+                {/* Goals Grid */}
         {filteredGoals.length === 0 ? (
           <div className="bb-card p-12 text-center">
             <div className="text-6xl mb-4">🎯</div>
-            <h3 className="text-xl font-bold text-slate-900 mb-2">No Goals Yet</h3>
-            <p className="text-slate-600 mb-6">Start by creating your first financial goal!</p>
-            <button onClick={() => setShowAddModal(true)} className="bb-btn-primary" type="button">
-              Create Your First Goal
-            </button>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">
+              {filter === 'all' ? 'No Goals Yet' : 
+               filter === 'completed' ? 'No Completed Goals' : 
+               'No Active Goals'}
+            </h3>
+            <p className="text-slate-600 mb-6">
+              {filter === 'all' ? 'Start by creating your first financial goal!' :
+               filter === 'completed' ? 'Complete some goals to see them here.' :
+               'All your goals are completed! Create a new one.'}
+            </p>
+            {(filter === 'all' || filter === 'active') && (
+              <button onClick={() => setShowAddModal(true)} className="bb-btn-primary" type="button">
+                {goals.length === 0 ? 'Create Your First Goal' : 'Add New Goal'}
+              </button>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
