@@ -63,8 +63,16 @@ export default function Register() {
     <div className="min-h-screen flex items-center justify-center p-4 bb-gradient-animate">
       <div className="w-full max-w-md">
         {/* Logo & Welcome */}
-        <div className="text-center mb-8 bb-float">
-          <img src={Logo} alt="BudgetBuddy" className="h-16 w-auto mx-auto mb-4 drop-shadow-2xl" />
+         <div
+          className="flex flex-col items-center justify-center mb-8"
+          style={{ height: '110px', overflow: 'visible', position: 'relative', zIndex: 10 }}
+        >
+          <img
+            src={Logo}
+            alt="BudgetBuddy"
+            className="h-20 w-auto mx-auto mb-4 drop-shadow-2xl animate-bounce"
+            style={{ position: 'relative', zIndex: 10 }}
+          />
           <h1 className="text-4xl font-bold text-white mb-2">Join BudgetBuddy</h1>
           <p className="text-white/90 text-lg">Start your financial journey today</p>
         </div>
