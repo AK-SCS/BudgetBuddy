@@ -46,10 +46,10 @@ def evaluate_model(model, X_train, X_test, y_train, y_test, model_name):
     print(f"\n{'='*60}")
     print(f"{model_name} Performance:")
     print(f"{'='*60}")
-    print(f"Training RMSE: ${train_rmse:,.2f}")
-    print(f"Test RMSE:     ${test_rmse:,.2f}")
-    print(f"Training MAE:  ${train_mae:,.2f}")
-    print(f"Test MAE:      ${test_mae:,.2f}")
+    print(f"Training RMSE: {train_rmse:,.2f}")
+    print(f"Test RMSE:     {test_rmse:,.2f}")
+    print(f"Training MAE:  {train_mae:,.2f}")
+    print(f"Test MAE:      {test_mae:,.2f}")
     print(f"Test MAPE:     {test_mape:.2f}%")
     print(f"Training R²:   {train_r2:.4f}")
     print(f"Test R²:       {test_r2:.4f}")
@@ -80,13 +80,13 @@ def main():
     print("Engineering features...")
     df = add_engineered_features(df)
     
-    # Add income-scaled features for better high-earner prediction
+    # Adds income-scaled features for better high-earner prediction
     print("Adding income-scaled features...")
     df['expense_to_income_ratio'] = df['Total_Expenses'] / df['Monthly_Income']
     df['discretionary_ratio'] = (df['Going_Out'] + df['Entertainment'] + df['Travel']) / df['Monthly_Income']
     df['fixed_ratio'] = (df['Rent'] + df['Loan_Repayment'] + df['Insurance']) / df['Monthly_Income']
     
-    # Keep only features that will be available in API predictions
+    # Keeps only features that will be available in API predictions
     api_features = [
         'Month', 'Monthly_Income', 'Rent', 'Loan_Repayment', 'Insurance', 
         'Subscriptions', 'Groceries', 'Travel', 'Going_Out', 'Entertainment',
@@ -99,7 +99,7 @@ def main():
         'fixed_ratio'
     ]
     
-    # Filter to only keep features that exist in the dataframe
+   
     available_features = [f for f in api_features if f in df.columns]
     
     X = df[available_features]
@@ -107,7 +107,7 @@ def main():
     
     print(f"Using {len(available_features)} API-compatible features")
 
-    # Split data - stratify by income brackets for better representation across income levels
+   
     print("Splitting data with income stratification...")
     try:
         income_brackets = pd.qcut(df['Monthly_Income'], q=4, labels=['low', 'medium', 'high', 'very_high'], duplicates='drop')
@@ -173,15 +173,16 @@ def main():
             best_model = model
             best_model_name = name
 
-    print(f"\n🏆 Best Model: {best_model_name} (Test MAPE: {best_mape:.2f}%)")
+        print(f"\n🏆 Best Model: {best_model_name} (Test MAPE: {best_mape:.2f}%)")
     
-    # Save the best model
+    # Save the best model with a dynamic filename
+    model_file = f"models/{best_model_name.lower().replace(' ', '_').replace('(', '').replace(')', '')}_pipeline.joblib"
     joblib.dump({
         "model": best_model, 
         "features": available_features, 
         "model_name": best_model_name
-    }, MODEL_FILE)
-    print(f"✅ Model saved to {MODEL_FILE}")
+    }, model_file)
+    print(f"✅ Model saved to {model_file}")
     
     # Feature importance (for tree-based models)
     if hasattr(best_model, 'feature_importances_'):

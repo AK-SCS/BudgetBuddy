@@ -137,10 +137,10 @@ def predict(payload: PredictInput):
         # Add Total_Expenses for ratio calculations
         df['Total_Expenses'] = actual_total
         
-        # Apply feature engineering (includes all ratios)
+      
         df = add_engineered_features(df)
         
-        # Add income-scaled features (same as in training)
+        
         df['expense_to_income_ratio'] = df['Total_Expenses'] / df['Monthly_Income']
         df['discretionary_ratio'] = (df['Going_Out'] + df['Entertainment'] + df['Travel']) / df['Monthly_Income']
         df['fixed_ratio'] = (df['Rent'] + df['Loan_Repayment'] + df['Insurance']) / df['Monthly_Income']
