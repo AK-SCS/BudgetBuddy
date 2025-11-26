@@ -1,6 +1,6 @@
 """
 Machine Learning Model Training Script for BudgetBuddy
-Trains and compares XGBoost, Gradient Boosting, and Random Forest models
+Trains and compares multiple regression models (Random Forest, Gradient Boosting, XGBoost)
 Selects best model based on MAPE (Mean Absolute Percentage Error)
 """
 

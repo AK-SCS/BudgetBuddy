@@ -49,14 +49,14 @@ class AllocateSpareInput(BaseModel):
     financial_goals: list = []
 
 MODELS_DIR = "models"
-MODEL_FILE = os.path.join(MODELS_DIR, "xgb_pipeline.joblib")
+MODEL_FILE = os.path.join(MODELS_DIR, "random_forest_pipeline.joblib")
 
 MODEL = None
 FEATURES = None
 
 def load_model():
     """
-    Loads the trained XGBoost model from disk at startup
+    Loads the trained Random Forest model from disk at startup
     Initializes MODEL and FEATURES global variables
     """
     global MODEL, FEATURES
@@ -99,7 +99,7 @@ def health():
 @app.post("/predict")
 def predict(payload: PredictInput):
     """
-    Predicts total monthly expenses using XGBoost machine learning model
+    Predicts total monthly expenses using Random Forest machine learning model
     Applies feature engineering and returns prediction with confidence metrics
     
     Args:
