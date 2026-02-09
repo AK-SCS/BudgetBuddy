@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run linters
+echo "Running pre-commit checks..."
+
+# Format check
+npm run format:check || {
+    echo "❌ Prettier formatting issues found. Run 'npm run format' to fix."
+    exit 1
+}
+
+# Lint frontend
+cd budgetbuddyweb && npm run lint || {
+    echo "❌ Frontend linting failed."
+    exit 1
+}
+
+echo "✅ Pre-commit checks passed!"

@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/authContext';
+import { RegionSelector } from './RegionSelector';
 import Logo from '../assets/budgetbuddy-logo.png';
 
 /**
@@ -76,8 +77,12 @@ export default function Header() {
               AI Assistant
             </NavLink>
 
+            <div className="ml-3 mr-2">
+              <RegionSelector />
+            </div>
+
             <button
-              className="ml-3 px-5 py-2 rounded-lg font-medium bg-white/20 text-white hover:bg-white/30 transition-all duration-200 shadow-sm flex items-center gap-2"
+              className="px-5 py-2 rounded-lg font-medium bg-white/20 text-white hover:bg-white/30 transition-all duration-200 shadow-sm flex items-center gap-2"
               onClick={() => {
                 logout();
                 nav('/login');

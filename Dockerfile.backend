@@ -1,0 +1,33 @@
+# Build stage
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copy csproj and restore dependencies
+COPY BudgetBuddy/BudgetBuddy.csproj BudgetBuddy/
+RUN dotnet restore "BudgetBuddy/BudgetBuddy.csproj"
+
+# Copy everything else and build
+COPY BudgetBuddy/ BudgetBuddy/
+WORKDIR "/src/BudgetBuddy"
+RUN dotnet build "BudgetBuddy.csproj" -c Release -o /app/build
+
+# Publish stage
+FROM build AS publish
+RUN dotnet publish "BudgetBuddy.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 8081
+
+# Copy published app
+COPY --from=publish /app/publish .
+
+# Create logs directory
+RUN mkdir -p /app/logs && chmod 777 /app/logs
+
+# Create data directory for SQLite (dev only)
+RUN mkdir -p /app/Data && chmod 777 /app/Data
+
+ENTRYPOINT ["dotnet", "BudgetBuddy.dll"]

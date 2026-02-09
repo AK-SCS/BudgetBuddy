@@ -98,6 +98,15 @@ StyleCopReport.xml
 *.svclog
 *.scc
 
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+!.env.example
+
 # Chutzpah Test files
 _Chutzpah*
 

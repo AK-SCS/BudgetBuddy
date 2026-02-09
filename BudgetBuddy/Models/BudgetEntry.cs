@@ -32,6 +32,12 @@ namespace BudgetBuddy.API.Models
         public decimal Healthcare { get; set; }
         public decimal Education { get; set; }
         public decimal Miscellaneous { get; set; }
+        
+        /// <summary>
+        /// Region code (GB for UK, IN for India) for currency and locale formatting
+        /// </summary>
+        public string Region { get; set; } = "GB";
+        
         public decimal Savings { get; set; }
         public decimal Investments { get; set; }
         public decimal Net_Worth { get; set; }
