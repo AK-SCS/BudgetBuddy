@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../api/axios';
+import { useRegion } from '../contexts/useRegion';
 import logo from '../assets/budgetbuddy-logo.png';
 
 type BudgetEntry = {
@@ -37,6 +38,7 @@ const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep
 
 export default function Dashboard() {
   const qc = useQueryClient();
+  const { region } = useRegion();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   
@@ -175,10 +177,13 @@ export default function Dashboard() {
       miscellaneous: parseFloat(form.miscellaneous || '0'),
       total_Expenses: totalExpenses,
       monthly_Savings: monthlySavings,
+      Savings: monthlySavings,
       investments: investments,
       debt: calculatedDebt,
-      liabilities: liabilities,
+      Total_Liabilities: liabilities,
       net_Worth: netWorth,
+      Financial_Goals: "",
+      Region: region,
     };
 
     saveBudget.mutate(payload);

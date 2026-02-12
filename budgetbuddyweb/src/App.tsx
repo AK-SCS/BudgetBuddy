@@ -1,3 +1,4 @@
+import { lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import AuthProvider from './auth/AuthProvider';
 import RequireAuth from './auth/RequireAuth';
@@ -5,14 +6,14 @@ import RedirectIfAuthed from './auth/RedirectIfAuthed';
 import Layout from './components/Layout';
 import Header from './components/Header';
 
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
-import BudgetsPage from './pages/BudgetsPage';
-import GoalsPage from './pages/GoalsPage';
-import AIPage from './pages/AIPage';
-import AnalyticsPage from './pages/AnalyticsPage';
-
+// Lazy load pages for better performance
+const Login = lazy(() => import('./pages/Login'));
+const Register = lazy(() => import('./pages/Register'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const BudgetsPage = lazy(() => import('./pages/BudgetsPage'));
+const GoalsPage = lazy(() => import('./pages/GoalsPage'));
+const AIPage = lazy(() => import('./pages/AIPage'));
+const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage'));
 
 export default function App() {
   return (
@@ -30,7 +31,7 @@ export default function App() {
           <Route element={<Layout />}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/budgets" element={<BudgetsPage />} />
-           <Route path="/analytics" element={<AnalyticsPage />} />
+            <Route path="/analytics" element={<AnalyticsPage />} />
             <Route path="/goals" element={<GoalsPage />} />
             <Route path="/ai" element={<AIPage />} />
           </Route>

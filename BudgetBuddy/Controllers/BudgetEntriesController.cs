@@ -61,6 +61,8 @@ namespace BudgetBuddy.API.Controllers
                 return BadRequest("Month must be between 1 and 12.");
 
             var userId = _current.UserId;
+            if (userId == 0)
+                return Unauthorized("User not authenticated. Please login first.");
             var entry = new BudgetEntry
             {
                 UserId = userId,
@@ -83,7 +85,8 @@ namespace BudgetBuddy.API.Controllers
                 Net_Worth = dto.Net_Worth,
                 Financial_Goals = dto.Financial_Goals ?? "",
                 Debt = dto.Debt,
-                Total_Liabilities = dto.Total_Liabilities
+                Total_Liabilities = dto.Total_Liabilities,
+                Region = dto.Region ?? "GB"
             };
 
             Compute(entry);
@@ -104,6 +107,9 @@ namespace BudgetBuddy.API.Controllers
         public async Task<IActionResult> PutBudgetEntry(int id, BudgetEntryDto dto)
         {
             var userId = _current.UserId;
+            if (userId == 0)
+                return Unauthorized("User not authenticated. Please login first.");
+                
             var entry = await _context.BudgetEntries.FirstOrDefaultAsync(b => b.Id == id && b.UserId == userId);
             if (entry == null) return NotFound();
 
@@ -127,6 +133,7 @@ namespace BudgetBuddy.API.Controllers
             entry.Financial_Goals = dto.Financial_Goals ?? "";
             entry.Debt = dto.Debt;
             entry.Total_Liabilities = dto.Total_Liabilities;
+            entry.Region = dto.Region ?? "GB";
 
             Compute(entry);
 

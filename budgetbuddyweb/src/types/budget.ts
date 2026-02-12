@@ -30,6 +30,7 @@ export type BudgetEntry = {
   total_Liabilities: number;
 
   financial_Goals: string;
+  region: string;
 };
 
 export type BudgetEntryDto = Omit<BudgetEntry, 'id' | 'userId'>;

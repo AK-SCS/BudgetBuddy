@@ -25,5 +25,10 @@ namespace BudgetBuddy.API.Dtos
         public string? Financial_Goals { get; set; }
         [Range(0, double.MaxValue)] public decimal Debt { get; set; }
         [Range(0, double.MaxValue)] public decimal Total_Liabilities { get; set; }
+        
+        /// <summary>
+        /// Region code (GB for UK, IN for India) for currency formatting
+        /// </summary>
+        public string Region { get; set; } = "GB";
     }
 }
